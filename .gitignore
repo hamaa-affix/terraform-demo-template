@@ -1,0 +1,6 @@
+.terraform
+development.template
+builds
+*.pem
+terraform.tfvars
+id_*

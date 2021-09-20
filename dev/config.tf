@@ -1,19 +1,16 @@
 terraform {
   required_version = "1.0.7"
+  backend "s3" {
+    bucket = "terraform.demo"
+    key    = "demo.terraform.tfstate"
+    region = "ap-northeast-1"
+  }
 
   required_providers {
     aws = {
-      aws = {
-        source  = "hashicorp/aws"
-        version = "3.48.0"
-      }
+      source  = "hashicorp/aws"
+      version = "3.48.0"
     }
-  }
-
-  backend "s3" {
-    bucket = var.tf_s3_bucket
-    key    = var.state_file
-    region = "ap-northeast-1"
   }
 }
 

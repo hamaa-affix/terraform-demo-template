@@ -5,6 +5,9 @@ data aws_ssm_parameter amzn2_ami {
   name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
 }
 
+/*
+  EC2 * 2
+*/
 resource "aws_instance" "web" {
   count         =  2
   ami           = data.aws_ssm_parameter.amzn2_ami.value
@@ -31,4 +34,14 @@ resource "aws_instance" "web" {
 resource "aws_key_pair" "auth" {
   key_name   = var.key_name
   public_key = file(var.public_key_path)
+}
+
+resource "aws_eip" "bastion" {
+  count = 2
+  instance = aws_instance.web[count.index].id
+  vpc      = true
+
+  tags = {
+    Name = "eip-for-web"
+  }
 }
